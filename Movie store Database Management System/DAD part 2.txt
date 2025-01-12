@@ -1,0 +1,141 @@
+
+Setting environment for using XAMPP for Windows.
+MSI@DESKTOP-8K960MP c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.11-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE Music;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> USE Music;
+Database changed
+MariaDB [Music]> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| music      |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [Music]> CREATE TABLE Musician (SSN VARCHAR(10),Name VARCHAR(50),Address VARCHAR(50),PhoneNo INT(15));
+Query OK, 0 rows affected (0.051 sec)
+
+MariaDB [Music]> SHOW TABLES;
++-----------------+
+| Tables_in_music |
++-----------------+
+| musician        |
++-----------------+
+1 row in set (0.001 sec)
+
+MariaDB [Music]> DESCRIBE Musicion;
+ERROR 1146 (42S02): Table 'music.musicion' doesn't exist
+MariaDB [Music]> DESCRIBE Musician;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SSN     | varchar(10) | YES  |     | NULL    |       |
+| Name    | varchar(50) | YES  |     | NULL    |       |
+| Address | varchar(50) | YES  |     | NULL    |       |
+| PhoneNo | int(15)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.048 sec)
+
+
+MariaDB [Music]> CREATE TABLE Song (Title VARCHAR(25),Author VARCHAR(50),PRIMARY KEY(Author));
+Query OK, 0 rows affected (0.050 sec)
+
+MariaDB [Music]> DESCRIBE Song;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Title  | varchar(25) | YES  |     | NULL    |       |
+| Author | varchar(50) | NO   | PRI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.047 sec)
+
+MariaDB [Music]> CREATE TABLE Album (AlbumID VARCHAR(10),Title VARCHAR(25),CopyDate VARCHAR(12),Formar VARCHAR(6),PRIMARY KEY (AlbumID));
+Query OK, 0 rows affected (0.054 sec)
+
+MariaDB [Music]> DESCRIBE Album;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| AlbumID  | varchar(10) | NO   | PRI | NULL    |       |
+| Title    | varchar(25) | YES  |     | NULL    |       |
+| CopyDate | varchar(12) | YES  |     | NULL    |       |
+| Formar   | varchar(6)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.047 sec)
+
+MariaDB [Music]> CREATE TABLE Instrument (InstrumentName VARCHAR(15),MusicalKey VARCHAR(12),PRIMARY KEY (InstrumentName));
+Query OK, 0 rows affected (0.048 sec)
+
+MariaDB [Music]> DESCRIBE Instrument;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| InstrumentName | varchar(15) | NO   | PRI | NULL    |       |
+| MusicalKey     | varchar(12) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+2 rows in set (0.045 sec)
+
+MariaDB [Music]> CREATE TABLE Play (InstrumentName VARCHAR(15),SSN VARCHAR(10),PRIMARY KEY (InstrumentName,SSN));
+Query OK, 0 rows affected (0.050 sec)
+
+MariaDB [Music]> DESCRIBE Play;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| InstrumentName | varchar(15) | NO   | PRI | NULL    |       |
+| SSN            | varchar(10) | NO   | PRI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+2 rows in set (0.043 sec)
+
+MariaDB [Music]> CREATE TABLE Performed (SSN VARCHAR(10),Title VARCHAR(25),PRIMARY KEY (SSN,Title));
+Query OK, 0 rows affected (0.051 sec)
+
+MariaDB [Music]> DESCRIBE Performed;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SSN   | varchar(10) | NO   | PRI | NULL    |       |
+| Title | varchar(25) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.046 sec)
+
+MariaDB [Music]> ALTER TABLE Musician ADD PRIMARY KEY (SSN);
+Query OK, 0 rows affected (0.066 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [Music]> DESCRIBE MUsician;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SSN     | varchar(10) | NO   | PRI | NULL    |       |
+| Name    | varchar(50) | YES  |     | NULL    |       |
+| Address | varchar(50) | YES  |     | NULL    |       |
+| PhoneNo | int(15)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.041 sec)
+
+MariaDB [Music]>  ALTER TABLE Performed ADD FOREIGN KEY(SSN) REFERENCES Musician(SSN);
+Query OK, 0 rows affected (0.094 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [Music]> ALTER TABLE Play ADD FOREIGN KEY(InstrumentName) REFERENCES Instrument(InstrumentName);
+Query OK, 0 rows affected (0.088 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [Music]> ALTER TABLE Play ADD FOREIGN KEY(SSN) REFERENCES Musician(SSN);
+Query OK, 0 rows affected (0.080 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [Music]>DESCRIBE Performed;

@@ -1,0 +1,30 @@
+mysql -u root -p
+
+USE video_store;
+
+SELECT * FROM Rents;
+
+INSERT INTO Rents (Movie_ID,Member_ID)
+    -> VALUES ('16','126');
+
+SELECT Movie_ID , COUNT(*) AS Total_Rentals
+    -> FROM Rental
+    -> GROUP BY Movie_ID;
+
+SELECT Member_ID, COUNT(Rental_ID) AS Total_Rentals
+    -> FROM Rental
+    -> GROUP BY Member_ID;
+
+SELECT Movie.Movie_ID, Movie.Title , Movie.Format , Movie.Genre
+    -> FROM Rental
+    -> JOIN Includes ON Rental.Rental_ID = Includes.Rental_ID
+    -> JOIN Movie ON Includes.Movie_ID = Movie.Movie_ID
+    -> WHERE Rental.Member_ID = '111';
+
+DELETE FROM Movie
+    -> WHERE Movie_ID = '17';
+
+ UPDATE Movie
+    -> SET Format='VHS'
+    -> WHERE Title = 'UP';
+

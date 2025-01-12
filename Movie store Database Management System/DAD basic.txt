@@ -1,0 +1,200 @@
+
+Setting environment for using XAMPP for Windows.
+MSI@DESKTOP-8K960MP c:\xampp
+# mysql -u root -p
+Enter password: (press enter)
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.11-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| personal details   |
+| personaldetails    |
+| phpmyadmin         |
+| studentdb          |
+| test               |
++--------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [(none)]> DROP DATABASE test;
+Query OK, 1 row affected (0.085 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| personal details   |
+| personaldetails    |
+| phpmyadmin         |
+| studentdb          |
++--------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [(none)]> CREATE DATABASE test;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> USE test;
+Database changed
+MariaDB [test]> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| test       |
++------------+
+1 row in set (0.000 sec)
+
+
+MariaDB [test]> CREATE TABLE student(RegNo VARCHAR(10),Name VARCHAR(50),Address VARCHAR(50),Course VARCHAR(10),City VARCHAR(10));
+Query OK, 0 rows affected (0.052 sec)
+
+
+MariaDB [test]> SHOW TABLES;
++----------------+
+| Tables_in_test |
++----------------+
+| student        |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [test]> DESCRIBE student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| RegNo   | varchar(10) | YES  |     | NULL    |       |
+| Name    | varchar(50) | YES  |     | NULL    |       |
+| Address | varchar(50) | YES  |     | NULL    |       |
+| Course  | varchar(10) | YES  |     | NULL    |       |
+| City    | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.046 sec)
+
+MariaDB [test]> ALTER TABLE student ADD PRIMARY KEY(RegNo);
+Query OK, 0 rows affected (0.064 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> DESCRIBE student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| RegNo   | varchar(10) | NO   | PRI | NULL    |       |
+| Name    | varchar(50) | YES  |     | NULL    |       |
+| Address | varchar(50) | YES  |     | NULL    |       |
+| Course  | varchar(10) | YES  |     | NULL    |       |
+| City    | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.050 sec)
+
+
+MariaDB [test]> INSERT INTO student VALUES ("S001","Gayal","Kurunegala","IT","Kurunegala"),("S002","Nipun","Kandy","HR","KANDY");
+Query OK, 2 rows affected (0.029 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> SELECT * FROM student;
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | IT     | Kurunegala |
+| S002  | Nipun | Kandy      | HR     | KANDY      |
++-------+-------+------------+--------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> SELECT RegNo,Name FROM student;
++-------+-------+
+| RegNo | Name  |
++-------+-------+
+| S001  | Gayal |
+| S002  | Nipun |
++-------+-------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> SELECT RegNo,Course,City FROM student;
++-------+--------+------------+
+| RegNo | Course | City       |
++-------+--------+------------+
+| S001  | IT     | Kurunegala |
+| S002  | HR     | KANDY      |
++-------+--------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [test]> SELECT * FROM student WHERE Address="Kurunegala";
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | IT     | Kurunegala |
++-------+-------+------------+--------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [test]> SELECT * FROM student WHERE RegNo="SOO1";
+Empty set (0.001 sec)
+
+MariaDB [test]> SELECT * FROM student WHERE RegNo="S001";
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | IT     | Kurunegala |
++-------+-------+------------+--------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [test]> SELECT * FROM student WHERE RegNO="S001" AND Address="KANDY";
+Empty set (0.001 sec)
+
+MariaDB [test]> SELECT * FROM student WHERE RegNO="S001" OR Address="KANDY";
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | IT     | Kurunegala |
+| S002  | Nipun | Kandy      | HR     | KANDY      |
++-------+-------+------------+--------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> UPDATE student SET Course="QS" WHERE RegNo="S001";
+Query OK, 1 row affected (0.030 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> SELECT * FROM student;
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | QS     | Kurunegala |
+| S002  | Nipun | Kandy      | HR     | KANDY      |
++-------+-------+------------+--------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> UPDATE student SET Address="Colombo" WHERE RegNo="S002";
+Query OK, 1 row affected (0.031 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test]> SELECT * FROM student;
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | QS     | Kurunegala |
+| S002  | Nipun | Colombo    | HR     | KANDY      |
++-------+-------+------------+--------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [test]> DELETE FROM student WHERE RegNo="S002";
+Query OK, 1 row affected (0.030 sec)
+
+MariaDB [test]> SELECT * FROM student;
++-------+-------+------------+--------+------------+
+| RegNo | Name  | Address    | Course | City       |
++-------+-------+------------+--------+------------+
+| S001  | Gayal | Kurunegala | QS     | Kurunegala |
++-------+-------+------------+--------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [test]>
